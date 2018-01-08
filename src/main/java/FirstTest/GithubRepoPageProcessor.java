@@ -12,23 +12,23 @@ import java.net.URL;
 import java.net.URLConnection;
 
 /**
- * Created by wb-zh306310 on 2018/1/8.
+ * Created by Grail on 2018/1/8.
  */
 public class GithubRepoPageProcessor implements PageProcessor {
 
-    //    ×¥È¡ÍøÕ¾µÄÏà¹ØÅäÖÃ£¬°üÀ¨±àÂë¡¢×¥È¡¼ä¸ô¡¢ÖØÊÔ´ÎÊıµÈ
+    //    æŠ“å–ç½‘ç«™çš„ç›¸å…³é…ç½®ï¼ŒåŒ…æ‹¬ç¼–ç ã€æŠ“å–é—´éš”ã€é‡è¯•æ¬¡æ•°ç­‰
     private Site site = Site.me().setRetryTimes(3).setSleepTime(100);
 
     @Override
-    //    processÊÇ¶¨ÖÆÅÀ³æÂß¼­µÄºËĞÄ½Ó¿Ú£¬ÔÚÕâÀï±àĞ´³éÈ¡Âß¼­
+    //    processæ˜¯å®šåˆ¶çˆ¬è™«é€»è¾‘çš„æ ¸å¿ƒæ¥å£ï¼Œåœ¨è¿™é‡Œç¼–å†™æŠ½å–é€»è¾‘
 //    public void process(Page page) {
-//        //        ´ÓÒ³Ãæ·¢ÏÖºóĞøµÄurlµØÖ·À´×¥È¡
+//        //        ä»é¡µé¢å‘ç°åç»­çš„urlåœ°å€æ¥æŠ“å–
 //        //page.addTargetRequests(page.getHtml().links().regex("(https://github\\.com/\\w+/\\w+)").all());
 //
 //        page.putField("author", page.getUrl().regex("https://github\\.com/(\\w+)/.*").toString());
 //        page.putField("name", page.getHtml().xpath("//h1[@class='public']/strong/a/text()").toString());
 //        if (page.getResultItems().get("name") == null) {
-//            //      Ìø¹ı´ËÒ³Ãæ
+//            //      è·³è¿‡æ­¤é¡µé¢
 //            page.setSkip(true);
 //        }
 //        page.putField("readme", page.getHtml().xpath("//div[@id='readme']/tidyText()"));
@@ -44,30 +44,30 @@ public class GithubRepoPageProcessor implements PageProcessor {
 
     static class DownloadImage{
         public static void download(String imgUrl, String name, String path) throws IOException {
-            // ¹¹ÔìURL
+            // æ„é€ URL
             URL url = new URL(imgUrl);
-            // ´ò¿ªÁ¬½Ó
+            // æ‰“å¼€è¿æ¥
             URLConnection con = url.openConnection();
-            //ÉèÖÃÇëÇó³¬Ê±Îª5s
+            //è®¾ç½®è¯·æ±‚è¶…æ—¶ä¸º5s
             con.setConnectTimeout(5*1000);
-            // ÊäÈëÁ÷
+            // è¾“å…¥æµ
             InputStream is = con.getInputStream();
 
-            // 1KµÄÊı¾İ»º³å
+            // 1Kçš„æ•°æ®ç¼“å†²
             byte[] bs = new byte[1024];
-            // ¶ÁÈ¡µ½µÄÊı¾İ³¤¶È
+            // è¯»å–åˆ°çš„æ•°æ®é•¿åº¦
             int len;
-            // Êä³öµÄÎÄ¼şÁ÷
+            // è¾“å‡ºçš„æ–‡ä»¶æµ
             File sf=new File(path);
             if(!sf.exists()){
                 sf.mkdirs();
             }
             OutputStream os = new FileOutputStream(sf.getPath()+"\\"+name);
-            // ¿ªÊ¼¶ÁÈ¡
+            // å¼€å§‹è¯»å–
             while ((len = is.read(bs)) != -1) {
                 os.write(bs, 0, len);
             }
-            // Íê±Ï£¬¹Ø±ÕËùÓĞÁ´½Ó
+            // å®Œæ¯•ï¼Œå…³é—­æ‰€æœ‰é“¾æ¥
             os.close();
             is.close();
         }
