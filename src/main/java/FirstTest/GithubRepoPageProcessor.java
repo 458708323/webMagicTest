@@ -6,23 +6,23 @@ import us.codecraft.webmagic.Spider;
 import us.codecraft.webmagic.processor.PageProcessor;
 
 /**
- * Created by wb-zh306310 on 2018/1/8.
+ * Created by Grail on 2018/1/8.
  */
 public class GithubRepoPageProcessor implements PageProcessor {
 
-    //    ×¥È¡ÍøÕ¾µÄÏà¹ØÅäÖÃ£¬°üÀ¨±àÂë¡¢×¥È¡¼ä¸ô¡¢ÖØÊÔ´ÎÊıµÈ
+    //    æŠ“å–ç½‘ç«™çš„ç›¸å…³é…ç½®ï¼ŒåŒ…æ‹¬ç¼–ç ã€æŠ“å–é—´éš”ã€é‡è¯•æ¬¡æ•°ç­‰
     private Site site = Site.me().setRetryTimes(3).setSleepTime(100);
 
     @Override
-    //    processÊÇ¶¨ÖÆÅÀ³æÂß¼­µÄºËĞÄ½Ó¿Ú£¬ÔÚÕâÀï±àĞ´³éÈ¡Âß¼­
+    //    processæ˜¯å®šåˆ¶çˆ¬è™«é€»è¾‘çš„æ ¸å¿ƒæ¥å£ï¼Œåœ¨è¿™é‡Œç¼–å†™æŠ½å–é€»è¾‘
     public void process(Page page) {
-        //        ´ÓÒ³Ãæ·¢ÏÖºóĞøµÄurlµØÖ·À´×¥È¡
+        //        ä»é¡µé¢å‘ç°åç»­çš„urlåœ°å€æ¥æŠ“å–
         //page.addTargetRequests(page.getHtml().links().regex("(https://github\\.com/\\w+/\\w+)").all());
 
         page.putField("author", page.getUrl().regex("https://github\\.com/(\\w+)/.*").toString());
         page.putField("name", page.getHtml().xpath("//h1[@class='public']/strong/a/text()").toString());
         if (page.getResultItems().get("name") == null) {
-            //      Ìø¹ı´ËÒ³Ãæ
+            //      è·³è¿‡æ­¤é¡µé¢
             page.setSkip(true);
         }
         page.putField("readme", page.getHtml().xpath("//div[@id='readme']/tidyText()"));
